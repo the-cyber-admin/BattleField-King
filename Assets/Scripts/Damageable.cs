@@ -1,9 +1,13 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
 public class Damageable : MonoBehaviour
 {
 	public float points = 0.1f;
+	public float stunTime = 1f;
+	[HideInInspector]
+	public bool stun = false;
 	Rigidbody rb;
 
 	void Awake()
@@ -14,6 +18,7 @@ public class Damageable : MonoBehaviour
 	public void AddDamage(Vector3 dir , float damage)
 	{
 		rb.AddForce(dir * damage);
+		StartCoroutine(Stun());
 	}
 
 	void OnCollisionEnter(Collision other)
@@ -25,4 +30,12 @@ public class Damageable : MonoBehaviour
 			Destroy(gameObject);
 		}
 	}
+
+	IEnumerator Stun()
+	{
+		stun = true;
+		yield return new WaitForSeconds(stunTime);
+		stun = false;
+	}
+	
 }

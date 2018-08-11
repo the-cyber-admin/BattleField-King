@@ -10,8 +10,11 @@ public class Enemy : MonoBehaviour
 	public float movementSmoothing = 0.05f;
 
 	Rigidbody rb;
+	Damageable damageable;
 	void Awake()
 	{
+		damageable = GetComponent<Damageable>();
+		
 		rb = GetComponent<Rigidbody>();
 		if (target == null)
 			target = GameObject.FindWithTag("Player").transform;
@@ -21,6 +24,8 @@ public class Enemy : MonoBehaviour
 	Vector3 velocity;
 	void Update()
 	{
+		if(damageable.stun)
+			return;
 		if(!onGround)
 			return;
 		if(target == null)

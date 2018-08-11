@@ -14,7 +14,7 @@ public class CameraController : MonoBehaviour
 		if(target == null)
 			return;
 		var newPosition = 
-			new Vector3(target.position.x, transform.position.y, target.position.z) + offset;
+			new Vector3(target.position.x, target.position.y, target.position.z) + offset;
 		transform.position = 
 			Vector3.SmoothDamp(transform.position, newPosition, ref velocity, smoothTime);
 	}

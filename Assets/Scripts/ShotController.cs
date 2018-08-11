@@ -8,6 +8,8 @@ public class ShotController : MonoBehaviour
 	public float maxScale = 2f;
 	public float lifetime = 3f;
 	private float speed = 1f;
+
+	Vector3 velocity;
 	
 	Rigidbody rb;
 	void Awake()
@@ -20,7 +22,7 @@ public class ShotController : MonoBehaviour
 	{
 		release = true;
 		rb.isKinematic = false;
-		rb.AddForce(speed * force * dir);
+		velocity = (speed * force * dir);
 	}
 
 	void OnCollisionEnter(Collision other)
@@ -38,9 +40,13 @@ public class ShotController : MonoBehaviour
 
 	void Update()
 	{
-		if(!charged)
+		if (release)
+		{
+			rb.velocity = velocity;
 			return;
-		if(release)
+		}
+
+		if(!charged)
 			return;
 		Scale();
 		speed = Mathf.Clamp(speed  + scaleIncreaseFactor * Time.deltaTime , 0 , maxScale + 1f);
