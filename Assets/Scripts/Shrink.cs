@@ -3,11 +3,12 @@
 public class Shrink : MonoBehaviour
 {
 	private float persentage = 1f;
-
 	public float speed = 1f;
 	float origin = 0;
+	EnemySpawner es;
 	void Awake()
 	{
+		es = FindObjectOfType<EnemySpawner>();
 		persentage = transform.localScale.x;
 		origin = persentage;
 	}
@@ -21,6 +22,7 @@ public class Shrink : MonoBehaviour
 		scale.z = Mathf.Clamp(scale.z, 0f, origin);
 		
 		transform.localScale = scale;
+		es.radius = persentage;
 	}
 
 	public void ScaleUp(float f)
