@@ -11,6 +11,8 @@ public class CameraController : MonoBehaviour
 	Vector3 velocity;
 	void FixedUpdate ()
 	{
+		if(target == null)
+			return;
 		var newPosition = 
 			new Vector3(target.position.x, transform.position.y, target.position.z) + offset;
 		transform.position = 

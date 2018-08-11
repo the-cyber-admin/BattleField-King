@@ -22,6 +22,7 @@ public class Damageable : MonoBehaviour
 		{
 			var battleField = GameObject.FindGameObjectWithTag("BattleField");
 			battleField.GetComponent<Shrink>().ScaleUp(points);
+			Destroy(gameObject);
 		}
 	}
 }

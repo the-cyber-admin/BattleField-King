@@ -32,11 +32,9 @@ public class Gun : MonoBehaviour
 			{
 				Fire();
 			}
-
-			return;
 		}
 
-		if (!isCharging && Input.GetButtonDown("Fire1"))
+		if (!automatic && !isCharging && Input.GetButtonDown("Fire1"))
 			Charge();
 
 		if (isCharging && Input.GetButtonUp("Fire1"))
@@ -64,7 +62,7 @@ public class Gun : MonoBehaviour
 	void Charge()
 	{
 		isCharging = true;
-		pro = Instantiate(projectileCharge, shootingPoint.position, transform.rotation , shootingPoint);
+		pro = Instantiate<GameObject>(projectileCharge, shootingPoint.position, transform.rotation , shootingPoint);
 	}
 
 	void Release()
@@ -73,6 +71,7 @@ public class Gun : MonoBehaviour
 		_nextTimeFire = Time.time + reloadRate;
 		var differnce = shootingPoint.position - transform.position;
 		pro.transform.SetParent(null);
-		pro.GetComponent<ShotController>().Shoot(differnce.normalized , force);
+		pro.GetComponent<ShotController>()
+			.Shoot(differnce.normalized , force);
 	}
 }

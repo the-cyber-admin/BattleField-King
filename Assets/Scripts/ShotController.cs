@@ -3,6 +3,7 @@
 [RequireComponent(typeof(Rigidbody))]
 public class ShotController : MonoBehaviour
 {
+	public bool charged = false;
 	public float scaleIncreaseFactor = 0.5f;
 	public float maxScale = 2f;
 	public float lifetime = 3f;
@@ -18,19 +19,27 @@ public class ShotController : MonoBehaviour
 	public void Shoot(Vector3 dir, float force)
 	{
 		release = true;
+		rb.isKinematic = false;
 		rb.AddForce(speed * force * dir);
 	}
 
 	void OnCollisionEnter(Collision other)
 	{
+		if(!release)
+			return;
+		if(charged)
+			return;
 		var damageable = other.collider.GetComponent<Damageable>();
 		damageable.AddDamage(
 			(other.transform.position - transform.position).normalized
 			, speed);
+		Destroy(gameObject);
 	}
 
 	void Update()
 	{
+		if(!charged)
+			return;
 		if(release)
 			return;
 		Scale();
