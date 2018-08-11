@@ -2,8 +2,7 @@
 
 public class Shrink : MonoBehaviour
 {
-	[HideInInspector]
-	public float persentage = 1f;
+	private float persentage = 1f;
 
 	public float speed = 1f;
 
@@ -16,7 +15,15 @@ public class Shrink : MonoBehaviour
 		scale.z = Mathf.Clamp(scale.z, 0f, 1f);
 		
 		transform.localScale = scale;
+	}
 
+	public void ScaleUp(float f)
+	{
+		persentage += f;
+	}
 
+	public void ScaleDown(float f)
+	{
+		persentage -= f;
 	}
 }

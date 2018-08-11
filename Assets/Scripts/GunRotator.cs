@@ -26,7 +26,7 @@ public class GunRotator : MonoBehaviour
 		//Assign the new Rotation
 		center.rotation =  Quaternion.Euler (new Vector3(0f,angle,0f));
 	}
- 
+
 	float AngleBetweenTwoPoints(Vector3 b, Vector3 a)
 	{
 		a *= invert;
