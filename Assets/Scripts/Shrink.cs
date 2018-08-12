@@ -2,36 +2,42 @@
 
 public class Shrink : MonoBehaviour
 {
-	private float persentage = 1f;
-	public float speed = 1f;
 	float origin = 0;
-	EnemySpawner es;
+	float percentage = 1;
+	public float smooth = 0.5f;
+
+	Animator animator;
+
 	void Awake()
 	{
-		es = FindObjectOfType<EnemySpawner>();
-		persentage = transform.localScale.x;
-		origin = persentage;
+		animator = FindObjectOfType<Animator>();
+		origin = transform.localScale.x;
 	}
 	
-	void Update()
-	{
-		persentage -= speed * Time.deltaTime;
-		var scale = new Vector3(persentage, transform.localScale.y, persentage);
-
-		scale.x = Mathf.Clamp(scale.x, 0f, origin);
-		scale.z = Mathf.Clamp(scale.z, 0f, origin);
-		
-		transform.localScale = scale;
-		es.radius = persentage;
-	}
-
 	public void ScaleUp(float f)
 	{
-		persentage += f;
+		percentage += f;
+		if(animator == null)
+			return;
+			
+		animator.SetBool("Grow" , true);
+		animator.SetBool("Shrink" , false);
+		
 	}
 
 	public void ScaleDown(float f)
 	{
-		persentage -= f;
+		percentage -= f;
+		if(animator == null)
+			return;
+		animator.SetBool("Grow" , false);
+		animator.SetBool("Shrink" , true);
+	}
+
+	private Vector3 velocity;
+	void Update()
+	{
+		var targetScale = new Vector3(origin * percentage , transform.localScale.y , origin * percentage);
+		transform.localScale = Vector3.SmoothDamp(transform.localScale, targetScale, ref velocity, smooth);
 	}
 }

@@ -8,6 +8,7 @@ public class Enemy : MonoBehaviour
 	public float angularSpeed = 30f;
 	public float power = 10f;
 	public float movementSmoothing = 0.05f;
+	public float points = 0.01f;
 
 	Rigidbody rb;
 	Damageable damageable;
@@ -17,7 +18,16 @@ public class Enemy : MonoBehaviour
 		
 		rb = GetComponent<Rigidbody>();
 		if (target == null)
-			target = GameObject.FindWithTag("Player").transform;
+		{
+			var go = GameObject.FindWithTag("Player");
+				if(go!=null)
+					target = go.transform;
+		}
+	}
+
+	void Start()
+	{
+		damageable.AddDamage(Vector3.zero, 0);
 	}
 	
 	bool onGround;
@@ -46,6 +56,9 @@ public class Enemy : MonoBehaviour
 		{
 			other.gameObject.GetComponent<Rigidbody>()
 				.AddForce((other.transform.position - transform.position).normalized * power);
+			var o = GameObject.FindGameObjectWithTag("BattleField");
+			o.GetComponent<Shrink>().ScaleDown(points);
+			damageable.AddDamage(Vector3.zero , 0);
 		}
 	}
 	

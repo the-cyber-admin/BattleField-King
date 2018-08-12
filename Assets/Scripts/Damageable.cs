@@ -18,6 +18,7 @@ public class Damageable : MonoBehaviour
 	public void AddDamage(Vector3 dir , float damage)
 	{
 		rb.AddForce(dir * damage);
+		StopAllCoroutines();
 		StartCoroutine(Stun());
 	}
 
